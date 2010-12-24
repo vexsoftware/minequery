@@ -7,6 +7,10 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+/**
+ * The MineQuery plugin class.
+ * @author Kramer Campbell
+ */
 public class MineQuery extends Plugin {
     private final String NAME = "MineQuery";
     private final String VERSION = "1.0";
@@ -18,6 +22,9 @@ public class MineQuery extends Plugin {
     private boolean verbose;
     private MineQueryServer queryServer;
 
+    /**
+     * Called when the plugin is enabled.
+     */
     public void enable() {
         log = Logger.getLogger("Minecraft");
         log(NAME + " " + VERSION + " loaded.");
@@ -32,6 +39,9 @@ public class MineQuery extends Plugin {
         (new Thread(queryServer)).start();
     }
 
+    /**
+     * Called when the plugin is disabled.
+     */
     public void disable() {
         try {
             if (queryServer.serverSocket != null) {
@@ -44,9 +54,16 @@ public class MineQuery extends Plugin {
         log(NAME + " " + VERSION + " unloaded.");
     }
 
+    /**
+     * Called when the plugin is loaded.
+     */
     public void initialize() {
     }
 
+    /**
+     * Writes a message to the log if silent mode is disabled.
+     * @param message The message to write to the log.
+     */
     public void log(String message) {
         if (silent) {
             return;
@@ -55,15 +72,28 @@ public class MineQuery extends Plugin {
         log.info(message);
     }
 
-    private class MineQueryServer extends Thread {
+    /**
+     * The query server class.
+     */
+    public class MineQueryServer extends Thread {
+        /**
+         * The query server socket.
+         */
         public ServerSocket serverSocket;
 
         private int port;
 
+        /**
+         * Constructs the query server.
+         * @param port The port the query server should run on.
+         */
         public MineQueryServer(int port) {
             this.port = port;
         }
 
+        /**
+         * The query server thread.
+         */
         public void run() {
             try {
                 serverSocket = new ServerSocket(port);
