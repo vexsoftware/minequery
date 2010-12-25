@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Minequery extends Plugin {
     private final String NAME = "Minequery";
-    private final String VERSION = "1.0";
+    private final String VERSION = "1.1";
 
     private Logger log;
     private PropertiesFile serverProperties;
