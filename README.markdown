@@ -31,9 +31,9 @@ Example:
     minequery-silent=false
     minequery-verbose=false
 
-`minequery-port` is the port on which the query server runs on.
-`minequery-silent` is to silence MineQuery from writing to the log if set to `true`.
-`minequery-verbose` generates output each time a query is received if set to `true`.
+`minequery-port` is the port on which the query server runs on.  
+`minequery-silent` is to silence MineQuery from writing to the log if set to `true`.  
+`minequery-verbose` generates output each time a query is received if set to `true`.  
 
 ## License
 
