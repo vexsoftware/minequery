@@ -113,6 +113,7 @@ public class Minequery extends Plugin {
                         if (in.equalsIgnoreCase("QUERY")) {
                             int serverPort = serverProperties.getInt("server-port");
                             int playerCount = etc.getServer().getPlayerList().size();
+                            int maxPlayers = serverProperties.getInt("max-players");
                             String[] playerList = new String[playerCount];
 
                             for (int i = 0; i < playerCount; i++) {
@@ -121,6 +122,7 @@ public class Minequery extends Plugin {
 
                             String out = "SERVERPORT " + Integer.toString(serverPort) + "\n" +
                                     "PLAYERCOUNT " + Integer.toString(playerCount) + "\n" +
+                                    "MAXPLAYERS " + Integer.toString(maxPlayers) + "\n" +
                                     "PLAYERLIST " + Arrays.toString(playerList) + "\n";
 
                             try {
