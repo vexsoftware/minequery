@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
- * The MineQuery plugin class.
+ * The Minequery plugin class.
  * @author Kramer Campbell
  */
-public class MineQuery extends Plugin {
-    private final String NAME = "MineQuery";
+public class Minequery extends Plugin {
+    private final String NAME = "Minequery";
     private final String VERSION = "1.0";
 
     private Logger log;
@@ -20,7 +20,7 @@ public class MineQuery extends Plugin {
 
     private boolean silent;
     private boolean verbose;
-    private MineQueryServer queryServer;
+    private MinequeryServer queryServer;
 
     /**
      * Called when the plugin is enabled.
@@ -35,7 +35,7 @@ public class MineQuery extends Plugin {
         silent = serverProperties.getBoolean("minequery-silent", false);
         verbose = serverProperties.getBoolean("minequery-verbose", false);
 
-        queryServer = new MineQueryServer(queryPort);
+        queryServer = new MinequeryServer(queryPort);
         (new Thread(queryServer)).start();
     }
 
@@ -48,7 +48,7 @@ public class MineQuery extends Plugin {
                 queryServer.serverSocket.close();
             }
         } catch (IOException e) {
-            log("[MineQuery] " + e.toString());
+            log("[Minequery] " + e.toString());
         }
 
         log(NAME + " " + VERSION + " unloaded.");
@@ -75,7 +75,7 @@ public class MineQuery extends Plugin {
     /**
      * The query server class.
      */
-    public class MineQueryServer extends Thread {
+    public class MinequeryServer extends Thread {
         /**
          * The query server socket.
          */
@@ -87,7 +87,7 @@ public class MineQuery extends Plugin {
          * Constructs the query server.
          * @param port The port the query server should run on.
          */
-        public MineQueryServer(int port) {
+        public MinequeryServer(int port) {
             this.port = port;
         }
 
@@ -97,7 +97,7 @@ public class MineQuery extends Plugin {
         public void run() {
             try {
                 serverSocket = new ServerSocket(port);
-                log("[MineQuery] Query server listening on port " + Integer.toString(port));
+                log("[Minequery] Query server listening on port " + Integer.toString(port));
 
                 while (!serverSocket.isClosed()) {
                     Socket connectionSocket = serverSocket.accept();
@@ -106,7 +106,7 @@ public class MineQuery extends Plugin {
                     String in = inFromClient.readLine();
 
                     if (verbose) {
-                        log("[MineQuery] Received " + in + " from " + connectionSocket.getRemoteSocketAddress().toString());
+                        log("[Minequery] Received " + in + " from " + connectionSocket.getRemoteSocketAddress().toString());
                     }
 
                     if (in.equalsIgnoreCase("QUERY")) {
@@ -128,8 +128,8 @@ public class MineQuery extends Plugin {
                     connectionSocket.close();
                 }
             } catch (IOException e) {
-                log("[MineQuery] " + e.toString());
-                etc.getLoader().disablePlugin("MineQuery");
+                log("[Minequery] " + e.toString());
+                etc.getLoader().disablePlugin("Minequery");
             }
         }
     }

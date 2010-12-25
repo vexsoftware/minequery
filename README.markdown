@@ -1,6 +1,6 @@
-# MineQuery
+# Minequery
 
-MineQuery is a [hMod](http://www.minecraftforum.net/viewtopic.php?t=23340) server plugin for Minecraft. It creates a small server listening for requests and responds with of the Minecraft server port, how many players are online, and the player list.
+Minequery is a [hMod](http://www.minecraftforum.net/viewtopic.php?t=23340) server plugin for Minecraft. It creates a small server listening for requests and responds with of the Minecraft server port, how many players are online, and the player list.
 
 ## Compiling
 
@@ -15,15 +15,15 @@ If you are on Windows, you need to change the `:` to `;` in the classpath with t
 
 **To JAR the plugin:**
 
-    jar cvf MineQuery.jar -C bin/ .
+    jar cvf Minequery.jar -C bin/ .
 
 ## Installing
 
-Copy `MineQuery.jar` to your plugins directory. Then add MineQuery to the plugins line in `server.properties`
+Copy `Minequery.jar` to your plugins directory. Then add Minequery to the plugins line in `server.properties`
 
 ## Configuring
 
-There are three settings that can be set for MineQuery in `server.properties`
+There are three settings that can be set for Minequery in `server.properties`
 
 Example:
 
@@ -32,7 +32,7 @@ Example:
     minequery-verbose=false
 
 `minequery-port` is the port on which the query server runs on.  
-`minequery-silent` is to silence MineQuery from writing to the log if set to `true`.  
+`minequery-silent` is to silence Minequery from writing to the log if set to `true`.  
 `minequery-verbose` generates output each time a query is received if set to `true`.  
 
 ## License
