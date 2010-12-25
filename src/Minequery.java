@@ -123,7 +123,9 @@ public class Minequery extends Plugin {
                                     "PLAYERCOUNT " + Integer.toString(playerCount) + "\n" +
                                     "PLAYERLIST " + Arrays.toString(playerList) + "\n";
 
-                            outToClient.writeBytes(out);
+                            try {
+                                outToClient.writeBytes(out);
+                            } catch (IOException ignored) {}
                         }
                     }
 
