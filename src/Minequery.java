@@ -109,20 +109,22 @@ public class Minequery extends Plugin {
                         log("[Minequery] Received " + in + " from " + connectionSocket.getRemoteSocketAddress().toString());
                     }
 
-                    if (in.equalsIgnoreCase("QUERY")) {
-                        int serverPort = serverProperties.getInt("server-port");
-                        int playerCount = etc.getServer().getPlayerList().size();
-                        String[] playerList = new String[playerCount];
+                    if (in != null) {
+                        if (in.equalsIgnoreCase("QUERY")) {
+                            int serverPort = serverProperties.getInt("server-port");
+                            int playerCount = etc.getServer().getPlayerList().size();
+                            String[] playerList = new String[playerCount];
 
-                        for (int i = 0; i < playerCount; i++) {
-                            playerList[i] = etc.getServer().getPlayerList().get(i).getName();
+                            for (int i = 0; i < playerCount; i++) {
+                                playerList[i] = etc.getServer().getPlayerList().get(i).getName();
+                            }
+
+                            String out = "SERVERPORT " + Integer.toString(serverPort) + "\n" +
+                                    "PLAYERCOUNT " + Integer.toString(playerCount) + "\n" +
+                                    "PLAYERLIST " + Arrays.toString(playerList) + "\n";
+
+                            outToClient.writeBytes(out);
                         }
-
-                        String out = "SERVERPORT " + Integer.toString(serverPort) + "\n" +
-                                "PLAYERCOUNT " + Integer.toString(playerCount) + "\n" +
-                                "PLAYERLIST " + Arrays.toString(playerList) + "\n";
-
-                        outToClient.writeBytes(out);
                     }
 
                     connectionSocket.close();
