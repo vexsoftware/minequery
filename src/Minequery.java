@@ -13,10 +13,9 @@ import java.util.logging.Logger;
  */
 public class Minequery extends Plugin {
     private final String NAME = "Minequery";
-    private final String VERSION = "1.1";
+    private final String VERSION = "1.2";
 
     private Logger log;
-    private PropertiesFile serverProperties;
 
     private boolean silent;
     private boolean verbose;
@@ -27,9 +26,9 @@ public class Minequery extends Plugin {
      */
     public void enable() {
         log = Logger.getLogger("Minecraft");
-        log(NAME + " " + VERSION + " loaded.");
+        log(NAME + " v" + VERSION + " loaded.");
 
-        serverProperties = new PropertiesFile("server.properties");
+        PropertiesFile serverProperties = new PropertiesFile("server.properties");
 
         int queryPort = serverProperties.getInt("minequery-port", 25566);
         silent = serverProperties.getBoolean("minequery-silent", false);
@@ -51,7 +50,7 @@ public class Minequery extends Plugin {
             log("[Minequery] " + e.toString());
         }
 
-        log(NAME + " " + VERSION + " unloaded.");
+        log(NAME + " v" + VERSION + " unloaded.");
     }
 
     /**
@@ -111,6 +110,8 @@ public class Minequery extends Plugin {
 
                     if (in != null) {
                         if (in.equalsIgnoreCase("QUERY")) {
+                            PropertiesFile serverProperties = new PropertiesFile("server.properties");
+
                             int serverPort = serverProperties.getInt("server-port");
                             int playerCount = etc.getServer().getPlayerList().size();
                             int maxPlayers = serverProperties.getInt("max-players");
