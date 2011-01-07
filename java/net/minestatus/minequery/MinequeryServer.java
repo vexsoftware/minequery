@@ -1,10 +1,9 @@
 package net.minestatus.minequery;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  * The main networking hub that listens for and responds to Minequery requests.
- * 
+ *
  * @since 1.0
  * @author Blake Beaupain
  */
@@ -33,7 +32,7 @@ public final class MinequeryServer extends Thread {
 
 	/**
 	 * Creates a new <code>MinequeryServer</code> object.
-	 * 
+	 *
 	 * @param minequery
 	 *            The parent plugin object
 	 * @param port
@@ -66,7 +65,7 @@ public final class MinequeryServer extends Thread {
 
 	/**
 	 * Handles a received request.
-	 * 
+	 *
 	 * @param request
 	 *            The request message
 	 * @throws IOException
@@ -77,16 +76,21 @@ public final class MinequeryServer extends Thread {
 		if (request.equalsIgnoreCase("QUERY")) {
 			Minequery m = getMinequery();
 
+            String[] playerList = new String[m.getServer().getOnlinePlayers().length];
+            for (int i = 0; i < m.getServer().getOnlinePlayers().length; i++) {
+                playerList[i] = m.getServer().getOnlinePlayers()[i].getName();
+            }
+
 			// Build the response.
 			StringBuilder resp = new StringBuilder();
 			resp.append("SERVERPORT " + m.getServerPort() + "\n");
 			resp.append("PLAYERCOUNT " + m.getServer().getOnlinePlayers().length + "\n");
-			resp.append("MAXPLAYERS " + m.getMaxPlayers());
-			resp.append("PLAYERLIST " + Arrays.toString(m.getServer().getOnlinePlayers()));
+			resp.append("MAXPLAYERS " + m.getMaxPlayers() + "\n");
+			resp.append("PLAYERLIST " + Arrays.toString(playerList) + "\n");
 
 			// Send the response.
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			writer.write(resp.toString());
+			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+			out.writeBytes(resp.toString());
 		}
 
 		// Different requests may be introduced in the future.
@@ -94,7 +98,7 @@ public final class MinequeryServer extends Thread {
 
 	/**
 	 * Gets the <code>Minequery</code> parent plugin object.
-	 * 
+	 *
 	 * @return The Minequery object
 	 */
 	public Minequery getMinequery() {
@@ -103,7 +107,7 @@ public final class MinequeryServer extends Thread {
 
 	/**
 	 * Gets the <code>MinequeryServer</code> port.
-	 * 
+	 *
 	 * @return The port
 	 */
 	public int getPort() {
@@ -112,7 +116,7 @@ public final class MinequeryServer extends Thread {
 
 	/**
 	 * Gets the listening <code>ServerSocket</code>.
-	 * 
+	 *
 	 * @return The server socket
 	 */
 	public ServerSocket getListener() {
