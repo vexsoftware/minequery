@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * A port of Minequery that works with the Bukkit plugin platform.
- * 
+ *
  * @since 1.0
  * @author Blake Beaupain
  */
@@ -38,7 +38,7 @@ public final class Minequery extends JavaPlugin {
 	/**
 	 * Creates a new <code>Minequery</code> object. This constructor is
 	 * inherited from {@link org.bukkit.plugin.java.JavaPlugin}.
-	 * 
+	 *
 	 * @param pluginLoader
 	 * @param instance
 	 * @param desc
@@ -52,7 +52,7 @@ public final class Minequery extends JavaPlugin {
 		try {
 			Properties props = new Properties();
 			props.load(new FileReader(CONFIG_FILE));
-			server = new MinequeryServer(this, Integer.parseInt(props.getProperty("minequery-port")));
+			server = new MinequeryServer(this, Integer.parseInt(props.getProperty("minequery-port", "25566")));
 			serverPort = Integer.parseInt(props.getProperty("server-port"));
 			maxPlayers = Integer.parseInt(props.getProperty("max-players"));
 		} catch (IOException ex) {
@@ -62,7 +62,7 @@ public final class Minequery extends JavaPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.bukkit.plugin.Plugin#onDisable()
 	 */
 	@Override
@@ -76,7 +76,7 @@ public final class Minequery extends JavaPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.bukkit.plugin.Plugin#onEnable()
 	 */
 	@Override
@@ -91,7 +91,7 @@ public final class Minequery extends JavaPlugin {
 
 	/**
 	 * Gets the port that the Minecraft server is running on.
-	 * 
+	 *
 	 * @return The Minecraft server port
 	 */
 	public int getServerPort() {
@@ -100,7 +100,7 @@ public final class Minequery extends JavaPlugin {
 
 	/**
 	 * Gets the maximum amount of players the Minecraft server can hold.
-	 * 
+	 *
 	 * @return The maximum amount of players
 	 */
 	public int getMaxPlayers() {
