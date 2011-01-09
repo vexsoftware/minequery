@@ -112,9 +112,9 @@ public class Minequery extends Plugin {
                         if (in.equalsIgnoreCase("QUERY")) {
                             PropertiesFile serverProperties = new PropertiesFile("server.properties");
 
-                            int serverPort = serverProperties.getInt("server-port");
+                            int serverPort = serverProperties.getInt("server-port", 25565);
                             int playerCount = etc.getServer().getPlayerList().size();
-                            int maxPlayers = serverProperties.getInt("max-players");
+                            int maxPlayers = serverProperties.getInt("max-players", 20);
                             String[] playerList = new String[playerCount];
 
                             for (int i = 0; i < playerCount; i++) {

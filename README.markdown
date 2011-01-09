@@ -1,4 +1,4 @@
-# Minequery v1.2
+# Minequery 1.3
 
 Minequery is a [hMod](http://www.minecraftforum.net/viewtopic.php?t=23340) server plugin for Minecraft. It creates a small server listening for requests and responds with of the Minecraft server port, how many players are online, and the player list.
 
@@ -37,4 +37,4 @@ Example:
 
 ## License
 
-Copyright (c) 2010 [Kramer Campbell](http://kramerc.com), released under the MIT license.
+Copyright (c) 2011 [Kramer Campbell](http://kramerc.com), released under the MIT license.
