@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Minequery extends Plugin {
     private final String NAME = "Minequery";
-    private final String VERSION = "1.2";
+    private final String VERSION = "1.3";
 
     private Logger log;
 
@@ -26,7 +26,7 @@ public class Minequery extends Plugin {
      */
     public void enable() {
         log = Logger.getLogger("Minecraft");
-        log(NAME + " v" + VERSION + " loaded.");
+        log(NAME + " " + VERSION + " loaded.");
 
         PropertiesFile serverProperties = new PropertiesFile("server.properties");
 
