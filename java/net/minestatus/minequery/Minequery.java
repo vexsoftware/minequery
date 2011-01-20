@@ -42,11 +42,12 @@ public final class Minequery extends JavaPlugin {
 	 * @param pluginLoader
 	 * @param instance
 	 * @param desc
+     * @param folder
 	 * @param plugin
 	 * @param cLoader
 	 */
-	public Minequery(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File plugin, ClassLoader cLoader) {
-		super(pluginLoader, instance, desc, plugin, cLoader);
+	 public Minequery(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
+	        super(pluginLoader, instance, desc, folder, plugin, cLoader);
 
 		// Initialize the Minequery plugin.
 		try {
