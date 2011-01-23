@@ -16,4 +16,4 @@ Example:
 
 ## License
 
-Copyright (c) 2011 Blake Beaupain and Kramer Campbell, released under the GPL v3 License.
+Copyright (c) 2011 Blake Beaupain and Kramer Campbell, released under the GPL v3.
