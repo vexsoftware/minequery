@@ -33,7 +33,7 @@ public final class Minequery extends JavaPlugin {
 	private int maxPlayers;
 
 	/** The main Minequery server. */
-	private MinequeryServer server;
+	private QueryServer server;
 
 	/**
 	 * Creates a new <code>Minequery</code> object. This constructor is
@@ -47,13 +47,13 @@ public final class Minequery extends JavaPlugin {
 	 * @param cLoader
 	 */
 	 public Minequery(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-	        super(pluginLoader, instance, desc, folder, plugin, cLoader);
+	    super(pluginLoader, instance, desc, folder, plugin, cLoader);
 
 		// Initialize the Minequery plugin.
 		try {
 			Properties props = new Properties();
 			props.load(new FileReader(CONFIG_FILE));
-			server = new MinequeryServer(this, Integer.parseInt(props.getProperty("minequery-port", "25566")));
+			server = new QueryServer(this, Integer.parseInt(props.getProperty("minequery-port", "25566")));
 			serverPort = Integer.parseInt(props.getProperty("server-port"));
 			maxPlayers = Integer.parseInt(props.getProperty("max-players"));
 		} catch (IOException ex) {
@@ -71,7 +71,7 @@ public final class Minequery extends JavaPlugin {
 		try {
 			server.getListener().close();
 		} catch (IOException ex) {
-			log.log(Level.WARNING, "Unable to close the MinequeryServer listener.", ex);
+			log.log(Level.WARNING, "Unable to close the Minequery listener.", ex);
 		}
 	}
 
@@ -83,7 +83,7 @@ public final class Minequery extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		if (server == null) {
-			throw new IllegalStateException("Cannot enable - MinequeryServer not initialized.");
+			throw new IllegalStateException("Cannot enable - Minequery not initialized.");
 		}
 
 		// Start the server normally.

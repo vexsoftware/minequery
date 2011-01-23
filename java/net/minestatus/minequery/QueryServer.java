@@ -16,12 +16,12 @@ import java.util.logging.Logger;
  * @since 1.0
  * @author Blake Beaupain
  */
-public final class MinequeryServer extends Thread {
+public final class QueryServer extends Thread {
 
 	/** The parent plugin object. */
 	private final Minequery minequery;
 
-	/** The MinequeryServer port. */
+	/** The QueryServer port. */
 	private final int port;
 
 	/** The connection listener. */
@@ -31,7 +31,7 @@ public final class MinequeryServer extends Thread {
 	private final Logger log = Logger.getLogger(getClass().getName());
 
 	/**
-	 * Creates a new <code>MinequeryServer</code> object.
+	 * Creates a new <code>QueryServer</code> object.
 	 *
 	 * @param minequery
 	 *            The parent plugin object
@@ -40,7 +40,7 @@ public final class MinequeryServer extends Thread {
 	 * @throws IOException
 	 *             If an I/O error occurs
 	 */
-	public MinequeryServer(Minequery minequery, int port) throws IOException {
+	public QueryServer(Minequery minequery, int port) throws IOException {
 		this.minequery = minequery;
 		this.port = port;
 		listener = new ServerSocket(port);
@@ -53,47 +53,12 @@ public final class MinequeryServer extends Thread {
 				// Wait for and accept all incoming connections.
 				Socket socket = getListener().accept();
 
-				// Read the request and handle it.
-				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				handleRequest(socket, reader.readLine());
-				socket.close();
+				// Create a new thread to handle the request.
+                (new Thread(new Request(getMinequery(), socket))).start();
 			}
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Minequery server thread shutting down.", ex);
 		}
-	}
-
-	/**
-	 * Handles a received request.
-	 *
-	 * @param request
-	 *            The request message
-	 * @throws IOException
-	 *             If an I/O error occurs
-	 */
-	private void handleRequest(Socket socket, String request) throws IOException {
-		// Handle a query request.
-		if (request.equalsIgnoreCase("QUERY")) {
-			Minequery m = getMinequery();
-
-            String[] playerList = new String[m.getServer().getOnlinePlayers().length];
-            for (int i = 0; i < m.getServer().getOnlinePlayers().length; i++) {
-                playerList[i] = m.getServer().getOnlinePlayers()[i].getName();
-            }
-
-			// Build the response.
-			StringBuilder resp = new StringBuilder();
-			resp.append("SERVERPORT " + m.getServerPort() + "\n");
-			resp.append("PLAYERCOUNT " + m.getServer().getOnlinePlayers().length + "\n");
-			resp.append("MAXPLAYERS " + m.getMaxPlayers() + "\n");
-			resp.append("PLAYERLIST " + Arrays.toString(playerList) + "\n");
-
-			// Send the response.
-			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-			out.writeBytes(resp.toString());
-		}
-
-		// Different requests may be introduced in the future.
 	}
 
 	/**
@@ -106,7 +71,7 @@ public final class MinequeryServer extends Thread {
 	}
 
 	/**
-	 * Gets the <code>MinequeryServer</code> port.
+	 * Gets the <code>QueryServer</code> port.
 	 *
 	 * @return The port
 	 */
