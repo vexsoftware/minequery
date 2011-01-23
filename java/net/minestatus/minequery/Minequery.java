@@ -70,6 +70,7 @@ public final class Minequery extends JavaPlugin {
 	public void onDisable() {
 		try {
 			server.getListener().close();
+            System.out.println("Minequery is now disabled.");
 		} catch (IOException ex) {
 			log.log(Level.WARNING, "Unable to close the Minequery listener.", ex);
 		}
@@ -88,6 +89,7 @@ public final class Minequery extends JavaPlugin {
 
 		// Start the server normally.
 		server.start();
+        System.out.println("Minequery is now enabled.");
 	}
 
 	/**
