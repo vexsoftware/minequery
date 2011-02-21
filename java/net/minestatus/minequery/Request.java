@@ -106,16 +106,23 @@ public final class Request extends Thread {
 			// Build the JSON response.
 			StringBuilder resp = new StringBuilder();
 			resp.append("{");
-			resp.append("\"serverPort:\"").append(m.getServerPort()).append(",");
-			resp.append("\"playerCount:\"").append(m.getServer().getOnlinePlayers().length).append(",");
-			resp.append("\"maxPlayers:\"").append(m.getMaxPlayers()).append(",");
-			resp.append("\"playerList:\"");
+			resp.append("\"serverPort\":").append(m.getServerPort()).append(",");
+			resp.append("\"playerCount\":").append(m.getServer().getOnlinePlayers().length).append(",");
+			resp.append("\"maxPlayers\":").append(m.getMaxPlayers()).append(",");
+			resp.append("\"playerList\":");
 			resp.append("[");
+
+			// Iterate through the players.
+			int count = 0;
 			for (Player player : m.getServer().getOnlinePlayers()) {
-				resp.append("\"" + player.getDisplayName() + "\",");
+				resp.append("\"" + player.getName() + "\"");
+				if (++count < m.getServer().getOnlinePlayers().length) {
+					resp.append(",");
+				}
 			}
+
 			resp.append("]");
-			resp.append("}");
+			resp.append("}\n");
 
 			// Send the JSON response.
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
