@@ -71,6 +71,13 @@ public final class Minequery extends JavaPlugin {
 			serverIP = props.getProperty("server-ip", "ANY");
 			serverPort = Integer.parseInt(props.getProperty("minequery-port", "25566"));
 			maxPlayers = Integer.parseInt(props.getProperty("max-players", "32"));
+
+			// By default, "server-ip=" is set in server.properties which causes the default in getProperty() to not
+			// apply. This checks if it's blank and sets it to "ANY" if so.
+			if (serverIP.equals("")) {
+				serverIP = "ANY";
+			}
+
 			server = new QueryServer(this, serverIP, serverPort);
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error initializing Minequery.", ex);
