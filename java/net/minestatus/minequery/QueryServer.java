@@ -10,6 +10,7 @@ import java.util.logging.Logger;
  * The main networking hub that listens for and responds to Minequery requests.
  * 
  * @author Blake Beaupain
+ * @author Kramer Campbell
  * @since 1.0
  */
 public final class QueryServer extends Thread {
@@ -37,7 +38,7 @@ public final class QueryServer extends Thread {
 	/**
 	 * The logging utility.
 	 */
-	private final Logger log = Logger.getLogger(getClass().getName());
+	private final Logger log = Logger.getLogger("Minecraft");
 
 	/**
 	 * Creates a new <code>QueryServer</code> object.
@@ -57,8 +58,10 @@ public final class QueryServer extends Thread {
 		// Initialize the listener.
 		InetSocketAddress address;
 		if (host.equalsIgnoreCase("ANY")) {
+			log.info("Starting Minequery server on *:" + Integer.toString(port));
 			address = new InetSocketAddress(port);
 		} else {
+			log.info("Starting Minequery server on " + host + ":" + Integer.toString(port));
 			address = new InetSocketAddress(host, port);
 		}
 		listener = new ServerSocket();
@@ -76,7 +79,7 @@ public final class QueryServer extends Thread {
 				(new Thread(new Request(getMinequery(), socket))).start();
 			}
 		} catch (IOException ex) {
-			log.info("Minequery server shutting down.");
+			log.info("Stopping Minequery server");
 		}
 	}
 

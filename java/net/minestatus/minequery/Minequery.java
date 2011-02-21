@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * A port of Minequery that works with the Bukkit plugin platform.
  * 
  * @author Blake Beaupain
+ * @author Kramer Campbell
  * @since 1.0
  */
 public final class Minequery extends JavaPlugin {
@@ -28,7 +29,7 @@ public final class Minequery extends JavaPlugin {
 	/**
 	 * The logging utility (used for error logging).
 	 */
-	private final Logger log = Logger.getLogger(getClass().getName());
+	private final Logger log = Logger.getLogger("Minecraft");
 
 	/**
 	 * The host that the server listens on (any by default).
@@ -80,7 +81,7 @@ public final class Minequery extends JavaPlugin {
 
 			server = new QueryServer(this, serverIP, serverPort);
 		} catch (IOException ex) {
-			log.log(Level.SEVERE, "Error initializing Minequery.", ex);
+			log.log(Level.SEVERE, "Error initializing Minequery", ex);
 		}
 	}
 
@@ -93,9 +94,8 @@ public final class Minequery extends JavaPlugin {
 	public void onDisable() {
 		try {
 			server.getListener().close();
-			System.out.println("Minequery is now disabled.");
 		} catch (IOException ex) {
-			log.log(Level.WARNING, "Unable to close the Minequery listener.", ex);
+			log.log(Level.WARNING, "Unable to close the Minequery listener", ex);
 		}
 	}
 
@@ -107,12 +107,11 @@ public final class Minequery extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		if (server == null) {
-			throw new IllegalStateException("Cannot enable - Minequery not initialized.");
+			throw new IllegalStateException("Cannot enable - Minequery not initialized");
 		}
 
 		// Start the server normally.
 		server.start();
-		System.out.println("Minequery is now enabled.");
 	}
 
 	/**

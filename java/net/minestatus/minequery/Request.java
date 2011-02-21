@@ -32,7 +32,7 @@ public final class Request extends Thread {
 	/**
 	 * The logging utility.
 	 */
-	private final Logger log = Logger.getLogger(getClass().getName());
+	private final Logger log = Logger.getLogger("Minecraft");
 
 	/**
 	 * Creates a new <code>QueryServer</code> object.
@@ -60,7 +60,7 @@ public final class Request extends Thread {
 			// Finally close the socket.
 			socket.close();
 		} catch (IOException ex) {
-			log.log(Level.SEVERE, "Minequery server thread shutting down.", ex);
+			log.log(Level.SEVERE, "Minequery server thread shutting down", ex);
 		}
 	}
 
