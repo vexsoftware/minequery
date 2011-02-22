@@ -42,6 +42,11 @@ public final class Minequery extends JavaPlugin {
 	private int serverPort;
 
 	/**
+	 * The port of the Minequery server.
+	 */
+	private int port;
+
+	/**
 	 * The maximum amount of players allowed on the Minecraft server.
 	 */
 	private int maxPlayers;
@@ -70,7 +75,8 @@ public final class Minequery extends JavaPlugin {
 			Properties props = new Properties();
 			props.load(new FileReader(CONFIG_FILE));
 			serverIP = props.getProperty("server-ip", "ANY");
-			serverPort = Integer.parseInt(props.getProperty("minequery-port", "25566"));
+			serverPort = Integer.parseInt(props.getProperty("server-port", "25565"));
+			port = Integer.parseInt(props.getProperty("minequery-port", "25566"));
 			maxPlayers = Integer.parseInt(props.getProperty("max-players", "32"));
 
 			// By default, "server-ip=" is set in server.properties which causes the default in getProperty() to not
@@ -79,7 +85,7 @@ public final class Minequery extends JavaPlugin {
 				serverIP = "ANY";
 			}
 
-			server = new QueryServer(this, serverIP, serverPort);
+			server = new QueryServer(this, serverIP, port);
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error initializing Minequery", ex);
 		}
@@ -116,11 +122,20 @@ public final class Minequery extends JavaPlugin {
 
 	/**
 	 * Gets the port that the Minecraft server is running on.
-	 * 
+	 *
 	 * @return The Minecraft server port
 	 */
 	public int getServerPort() {
 		return serverPort;
+	}
+
+	/**
+	 * Gets the port that the Minequery server is running on.
+	 *
+	 * @return The Minecraft server port
+	 */
+	public int getPort() {
+		return port;
 	}
 
 	/**
