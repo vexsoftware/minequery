@@ -1,4 +1,4 @@
-# Minequery 1.4
+# Minequery 1.5
 
 Minequery is a server plugin for the Minecraft server mod, Bukkit. It creates a small server listening for requests and responds with of the Minecraft server port, how many players are online, and the player list.
 

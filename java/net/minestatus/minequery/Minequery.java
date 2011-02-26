@@ -1,15 +1,11 @@
 package net.minestatus.minequery;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.Server;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -57,19 +53,9 @@ public final class Minequery extends JavaPlugin {
 	private QueryServer server;
 
 	/**
-	 * Creates a new <code>Minequery</code> object. This constructor is
-	 * inherited from {@link org.bukkit.plugin.java.JavaPlugin}.
-	 * 
-	 * @param pluginLoader
-	 * @param instance
-	 * @param desc
-	 * @param folder
-	 * @param plugin
-	 * @param cLoader
+	 * Creates a new <code>Minequery</code> object.
 	 */
-	public Minequery(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader) {
-		super(pluginLoader, instance, desc, folder, plugin, cLoader);
-
+	public Minequery() {
 		// Initialize the Minequery plugin.
 		try {
 			Properties props = new Properties();
