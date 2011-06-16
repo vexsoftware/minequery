@@ -1,5 +1,7 @@
 package net.minestatus.minequery;
 
+import org.bukkit.entity.Player;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,8 +10,6 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.bukkit.entity.Player;
 
 /**
  * Handles Minequery requests.

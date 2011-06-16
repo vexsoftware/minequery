@@ -33,7 +33,7 @@ public final class QueryServer extends Thread {
 	/**
 	 * The connection listener.
 	 */
-	private final ServerSocket listener;
+	private ServerSocket listener;
 
 	/**
 	 * The logging utility.
@@ -47,14 +47,20 @@ public final class QueryServer extends Thread {
 	 *            The parent plugin object
 	 * @param port
 	 *            The port that this server will run on
-	 * @throws IOException
-	 *             If an I/O error occurs
 	 */
-	public QueryServer(Minequery minequery, String host, int port) throws IOException {
+	public QueryServer(Minequery minequery, String host, int port) {
 		this.minequery = minequery;
 		this.host = host;
 		this.port = port;
+	}
 
+	/**
+	 * Starts the ServerSocket listener.
+	 *
+	 * @throws IOException
+	 *             If an I/O error occurs
+	 */
+	public void startListener() throws IOException {
 		// Initialize the listener.
 		InetSocketAddress address;
 		if (host.equalsIgnoreCase("ANY")) {

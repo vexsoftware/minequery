@@ -1,12 +1,14 @@
 package net.minestatus.minequery;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.BindException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * A port of Minequery that works with the Bukkit plugin platform.
@@ -70,8 +72,9 @@ public final class Minequery extends JavaPlugin {
 			if (serverIP.equals("")) {
 				serverIP = "ANY";
 			}
-
-			server = new QueryServer(this, serverIP, port);
+		} catch (FileNotFoundException ex) {
+			// Highly unlikely to ever get this exception as the server.properties file is created before hand.
+			log.log(Level.SEVERE, "Could not find server.properties.", ex);
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error initializing Minequery", ex);
 		}
@@ -84,8 +87,11 @@ public final class Minequery extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
+		log.info("Stopping Minequery server");
+
 		try {
-			server.getListener().close();
+			if (server != null && server.getListener() != null)
+				server.getListener().close();
 		} catch (IOException ex) {
 			log.log(Level.WARNING, "Unable to close the Minequery listener", ex);
 		}
@@ -98,12 +104,20 @@ public final class Minequery extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
-		if (server == null) {
-			throw new IllegalStateException("Cannot enable - Minequery not initialized");
-		}
+		try {
+			// Initialize a new server thread.
+			server = new QueryServer(this, serverIP, port);
 
-		// Start the server normally.
-		server.start();
+			// Start the server listener.
+			server.startListener();
+
+			// Start listening for requests.
+			server.start();
+		} catch (BindException ex) {
+			log.log(Level.SEVERE, "Minequery cannot bind to the port " + port + ". Perhaps it's already in use?");
+		} catch (IOException ex) {
+			log.log(Level.SEVERE, "Error starting server listener", ex);
+		}
 	}
 
 	/**
