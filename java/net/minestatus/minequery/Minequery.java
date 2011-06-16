@@ -22,7 +22,7 @@ public final class Minequery extends JavaPlugin {
 	/**
 	 * The main configuration file.
 	 */
-	public static final String CONFIG_FILE = "server.properties";
+	private static final String CONFIG_FILE = "server.properties";
 
 	/**
 	 * The logging utility (used for error logging).
@@ -42,7 +42,7 @@ public final class Minequery extends JavaPlugin {
 	/**
 	 * The port of the Minequery server.
 	 */
-	private int port;
+	private int minequeryPort;
 
 	/**
 	 * The maximum amount of players allowed on the Minecraft server.
@@ -64,7 +64,7 @@ public final class Minequery extends JavaPlugin {
 			props.load(new FileReader(CONFIG_FILE));
 			serverIP = props.getProperty("server-ip", "ANY");
 			serverPort = Integer.parseInt(props.getProperty("server-port", "25565"));
-			port = Integer.parseInt(props.getProperty("minequery-port", "25566"));
+			minequeryPort = Integer.parseInt(props.getProperty("minequery-port", "25566"));
 			maxPlayers = Integer.parseInt(props.getProperty("max-players", "32"));
 
 			// By default, "server-ip=" is set in server.properties which causes the default in getProperty() to not
@@ -106,7 +106,7 @@ public final class Minequery extends JavaPlugin {
 	public void onEnable() {
 		try {
 			// Initialize a new server thread.
-			server = new QueryServer(this, serverIP, port);
+			server = new QueryServer(this, serverIP, minequeryPort);
 
 			// Start the server listener.
 			server.startListener();
@@ -114,7 +114,7 @@ public final class Minequery extends JavaPlugin {
 			// Start listening for requests.
 			server.start();
 		} catch (BindException ex) {
-			log.log(Level.SEVERE, "Minequery cannot bind to the port " + port + ". Perhaps it's already in use?");
+			log.log(Level.SEVERE, "Minequery cannot bind to the port " + minequeryPort + ". Perhaps it's already in use?");
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error starting server listener", ex);
 		}
@@ -134,8 +134,8 @@ public final class Minequery extends JavaPlugin {
 	 *
 	 * @return The Minecraft server port
 	 */
-	public int getPort() {
-		return port;
+	public int getMinequeryPort() {
+		return minequeryPort;
 	}
 
 	/**

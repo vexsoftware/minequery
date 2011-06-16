@@ -67,10 +67,12 @@ public final class Request extends Thread {
 	/**
 	 * Handles a received request.
 	 * 
+	 * @param socket
+	 * 			  The client we are handling the request for.
 	 * @param request
-	 *            The request message
+	 *            The request message.
 	 * @throws java.io.IOException
-	 *             If an I/O error occurs
+	 *            If an I/O error occurs.
 	 */
 	private void handleRequest(Socket socket, String request) throws IOException {
 		// Handle a query request.
@@ -89,10 +91,10 @@ public final class Request extends Thread {
 
 			// Build the response.
 			StringBuilder resp = new StringBuilder();
-			resp.append("SERVERPORT " + m.getServerPort() + "\n");
-			resp.append("PLAYERCOUNT " + m.getServer().getOnlinePlayers().length + "\n");
-			resp.append("MAXPLAYERS " + m.getMaxPlayers() + "\n");
-			resp.append("PLAYERLIST " + Arrays.toString(playerList) + "\n");
+			resp.append("SERVERPORT ").append(m.getServerPort()).append("\n");
+			resp.append("PLAYERCOUNT ").append(m.getServer().getOnlinePlayers().length).append("\n");
+			resp.append("MAXPLAYERS ").append(m.getMaxPlayers()).append("\n");
+			resp.append("PLAYERLIST ").append(Arrays.toString(playerList)).append("\n");
 
 			// Send the response.
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -115,7 +117,7 @@ public final class Request extends Thread {
 			// Iterate through the players.
 			int count = 0;
 			for (Player player : m.getServer().getOnlinePlayers()) {
-				resp.append("\"" + player.getName() + "\"");
+				resp.append("\"").append(player.getName()).append("\"");
 				if (++count < m.getServer().getOnlinePlayers().length) {
 					resp.append(",");
 				}

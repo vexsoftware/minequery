@@ -44,9 +44,11 @@ public final class QueryServer extends Thread {
 	 * Creates a new <code>QueryServer</code> object.
 	 * 
 	 * @param minequery
-	 *            The parent plugin object
+	 *            The parent plugin object.
+	 * @param host
+	 * 			  The host that this server will bind to.
 	 * @param port
-	 *            The port that this server will run on
+	 *            The port that this server will bind on.
 	 */
 	public QueryServer(Minequery minequery, String host, int port) {
 		this.minequery = minequery;
@@ -77,7 +79,7 @@ public final class QueryServer extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (true) {
+			while (!listener.isClosed()) {
 				// Wait for and accept all incoming connections.
 				Socket socket = getListener().accept();
 
