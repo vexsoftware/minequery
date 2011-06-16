@@ -40,6 +40,11 @@ public final class Minequery extends JavaPlugin {
 	private int serverPort;
 
 	/**
+	 * The host of the Minequery server.
+	 */
+	private String minequeryIP;
+
+	/**
 	 * The port of the Minequery server.
 	 */
 	private int minequeryPort;
@@ -58,12 +63,13 @@ public final class Minequery extends JavaPlugin {
 	 * Creates a new <code>Minequery</code> object.
 	 */
 	public Minequery() {
-		// Initialize the Minequery plugin.
 		try {
+			// Initialize the Minequery plugin.
 			Properties props = new Properties();
 			props.load(new FileReader(CONFIG_FILE));
 			serverIP = props.getProperty("server-ip", "ANY");
 			serverPort = Integer.parseInt(props.getProperty("server-port", "25565"));
+			minequeryIP = props.getProperty("minequery-ip");
 			minequeryPort = Integer.parseInt(props.getProperty("minequery-port", "25566"));
 			maxPlayers = Integer.parseInt(props.getProperty("max-players", "32"));
 
@@ -71,6 +77,17 @@ public final class Minequery extends JavaPlugin {
 			// apply. This checks if it's blank and sets it to "ANY" if so.
 			if (serverIP.equals("")) {
 				serverIP = "ANY";
+			}
+
+			// Is the minequery-ip property defined?
+			if (minequeryIP != null) {
+				// Just in case users use the same practice as above for "minequery-ip="
+				if (minequeryIP.equals("")) {
+					minequeryIP = "ANY";
+				}
+			} else {
+				// Let's assume to use the same host as the Minecraft server.
+				minequeryIP = serverIP;
 			}
 		} catch (FileNotFoundException ex) {
 			// Highly unlikely to ever get this exception as the server.properties file is created before hand.
@@ -106,7 +123,7 @@ public final class Minequery extends JavaPlugin {
 	public void onEnable() {
 		try {
 			// Initialize a new server thread.
-			server = new QueryServer(this, serverIP, minequeryPort);
+			server = new QueryServer(this, minequeryIP, minequeryPort);
 
 			// Start the server listener.
 			server.startListener();
@@ -118,6 +135,15 @@ public final class Minequery extends JavaPlugin {
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error starting server listener", ex);
 		}
+	}
+
+	/**
+	 * Gets the host that the Minecraft server is running on.
+	 *
+	 * @return The Minecraft server host
+	 */
+	public String getServerIP() {
+		return serverIP;
 	}
 
 	/**
