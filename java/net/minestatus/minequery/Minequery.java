@@ -156,9 +156,18 @@ public final class Minequery extends JavaPlugin {
 	}
 
 	/**
+	 * Gets the host that the Minequery server is running on.
+	 *
+	 * @return The Minequery server host
+	 */
+	public String getMinequeryIP() {
+		return minequeryIP;
+	}
+
+	/**
 	 * Gets the port that the Minequery server is running on.
 	 *
-	 * @return The Minecraft server port
+	 * @return The Minequery server port
 	 */
 	public int getMinequeryPort() {
 		return minequeryPort;
