@@ -1,5 +1,7 @@
 package net.minestatus.minequery;
 
+import com.nijiko.permissions.PermissionHandler;
+import net.minestatus.minequery.util.PermissionsHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.json.JSONArray;
@@ -180,6 +182,16 @@ public final class Request extends Thread {
 			playerMap.put("isDead", player.isDead());
 			playerMap.put("isSleeping", player.isSleeping());
 			playerMap.put("isOp", player.isOp());
+
+			// Permissions specific values.
+			if (PermissionsHelper.isPermissionsAvailable()) {
+				Map<String, Object> permissionsMap = new HashMap<String, Object>();
+				PermissionHandler permissionHandler = PermissionsHelper.getPermissionHandler();
+				permissionsMap.put("groups", permissionHandler.getGroups(player.getWorld().getName(), player.getName()));
+
+				playerMap.put("permissions", permissionsMap);
+			}
+
 			playerList.add(playerMap);
 		}
 
