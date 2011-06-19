@@ -6,7 +6,7 @@ import net.minestatus.minequery.Minequery;
 import org.bukkit.plugin.Plugin;
 
 public class PermissionsHelper {
-	public static PermissionHandler permissionHandler;
+	private static PermissionHandler permissionHandler;
 
 	public static boolean isPermissionsAvailable() {
 		setupPermissions();
