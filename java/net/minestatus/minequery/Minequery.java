@@ -87,11 +87,12 @@ public final class Minequery extends JavaPlugin {
 				}
 			} else {
 				// Let's assume to use the same host as the Minecraft server.
+				// For backwards compatibility.
 				minequeryIP = serverIP;
 			}
 		} catch (FileNotFoundException ex) {
 			// Highly unlikely to ever get this exception as the server.properties file is created before hand.
-			log.log(Level.SEVERE, "Could not find server.properties.", ex);
+			log.log(Level.SEVERE, "Could not find " + CONFIG_FILE, ex);
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error initializing Minequery", ex);
 		}
