@@ -1,5 +1,6 @@
 package net.minestatus.minequery;
 
+import net.minestatus.minequery.net.QueryServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.FileNotFoundException;

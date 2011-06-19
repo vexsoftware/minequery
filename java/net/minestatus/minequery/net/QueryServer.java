@@ -1,4 +1,4 @@
-package net.minestatus.minequery;
+package net.minestatus.minequery.net;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

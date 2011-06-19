@@ -1,6 +1,7 @@
-package net.minestatus.minequery;
+package net.minestatus.minequery.net;
 
 import com.nijiko.permissions.PermissionHandler;
+import net.minestatus.minequery.Minequery;
 import net.minestatus.minequery.util.PermissionsHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
