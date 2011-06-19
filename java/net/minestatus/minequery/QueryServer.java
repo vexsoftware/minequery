@@ -16,11 +16,6 @@ import java.util.logging.Logger;
 public final class QueryServer extends Thread {
 
 	/**
-	 * The parent plugin object.
-	 */
-	private final Minequery minequery;
-
-	/**
 	 * The host that the server will listen on.
 	 */
 	private final String host;
@@ -43,15 +38,12 @@ public final class QueryServer extends Thread {
 	/**
 	 * Creates a new <code>QueryServer</code> object.
 	 * 
-	 * @param minequery
-	 *            The parent plugin object.
 	 * @param host
 	 * 			  The host that this server will bind to.
 	 * @param port
 	 *            The port that this server will bind on.
 	 */
-	public QueryServer(Minequery minequery, String host, int port) {
-		this.minequery = minequery;
+	public QueryServer(String host, int port) {
 		this.host = host;
 		this.port = port;
 	}
@@ -84,20 +76,11 @@ public final class QueryServer extends Thread {
 				Socket socket = getListener().accept();
 
 				// Create a new thread to handle the request.
-				(new Thread(new Request(getMinequery(), socket))).start();
+				(new Thread(new Request(socket))).start();
 			}
 		} catch (IOException ex) {
 			log.info("Stopping Minequery server");
 		}
-	}
-
-	/**
-	 * Gets the <code>Minequery</code> parent plugin object.
-	 * 
-	 * @return The Minequery object
-	 */
-	public Minequery getMinequery() {
-		return minequery;
 	}
 
 	/**

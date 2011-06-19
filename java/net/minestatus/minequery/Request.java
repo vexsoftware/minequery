@@ -29,11 +29,6 @@ import java.util.regex.Pattern;
  */
 public final class Request extends Thread {
 	/**
-	 * The parent plugin object.
-	 */
-	private final Minequery minequery;
-
-	/**
 	 * The socket we are using to obtain a request.
 	 */
 	private final Socket socket;
@@ -46,13 +41,10 @@ public final class Request extends Thread {
 	/**
 	 * Creates a new <code>QueryServer</code> object.
 	 * 
-	 * @param minequery
-	 *            The parent plugin object
 	 * @param socket
 	 *            The socket we are using to obtain a request
 	 */
-	public Request(Minequery minequery, Socket socket) {
-		this.minequery = minequery;
+	public Request(Socket socket) {
 		this.socket = socket;
 	}
 
@@ -94,7 +86,7 @@ public final class Request extends Thread {
 
 		// Handle a standard Minequery request.
 		if (request.equalsIgnoreCase("QUERY")) {
-			Minequery m = getMinequery();
+			Minequery m = Minequery.getInstance();
 
 			// Build the response.
 			StringBuilder resp = new StringBuilder();
@@ -114,7 +106,7 @@ public final class Request extends Thread {
 
 		// Handle a request, respond in JSON format.
 		if (request.equalsIgnoreCase("QUERY_JSON")) {
-			Minequery m = getMinequery();
+			Minequery m = Minequery.getInstance();
 
 			// Build the JSON response.
 			Map<String, Object> items = new HashMap<String, Object>();
@@ -137,7 +129,7 @@ public final class Request extends Thread {
 
 		// Responses simply with the version of Minequery.
 		if (request.equalsIgnoreCase("VERSION")) {
-			Minequery m = getMinequery();
+			Minequery m = Minequery.getInstance();
 
 			// Build the response.
 			StringBuilder resp = new StringBuilder();
@@ -152,7 +144,7 @@ public final class Request extends Thread {
 	}
 
 	private String[] getPlayerList() {
-		Minequery m = getMinequery();
+		Minequery m = Minequery.getInstance();
 
 		String[] playerList = new String[m.getServer().getOnlinePlayers().length];
 		for (int i = 0; i < m.getServer().getOnlinePlayers().length; i++) {
@@ -163,7 +155,7 @@ public final class Request extends Thread {
 	}
 
 	private List<Map<String, Object>> getExtendedPlayerList() {
-		Minequery m = getMinequery();
+		Minequery m = Minequery.getInstance();
 
 		Player[] players = m.getServer().getOnlinePlayers();
 		List<Map<String, Object>> playerList = new ArrayList<Map<String, Object>>();
@@ -195,7 +187,7 @@ public final class Request extends Thread {
 	}
 
 	private List<Map<String, String>> getPluginList() {
-		Minequery m = getMinequery();
+		Minequery m = Minequery.getInstance();
 
 		Plugin[] plugins = m.getServer().getPluginManager().getPlugins();
 		List<Map<String, String>> pluginList = new ArrayList<Map<String, String>>();
@@ -211,7 +203,7 @@ public final class Request extends Thread {
 	}
 
 	private Map<String, String> getVersions() {
-		Minequery m = getMinequery();
+		Minequery m = Minequery.getInstance();
 
 		Map<String, String> versions = new HashMap<String, String>();
 
@@ -237,14 +229,5 @@ public final class Request extends Thread {
 		versions.put("minequery", m.getDescription().getVersion());
 
 		return versions;
-	}
-
-	/**
-	 * Gets the <code>Minequery</code> parent plugin object.
-	 * 
-	 * @return The Minequery object
-	 */
-	public Minequery getMinequery() {
-		return minequery;
 	}
 }

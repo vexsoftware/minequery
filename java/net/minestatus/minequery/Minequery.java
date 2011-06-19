@@ -59,6 +59,8 @@ public final class Minequery extends JavaPlugin {
 	 */
 	private QueryServer server;
 
+	private static Minequery instance;
+
 	/**
 	 * Creates a new <code>Minequery</code> object.
 	 */
@@ -90,6 +92,8 @@ public final class Minequery extends JavaPlugin {
 				// For backwards compatibility.
 				minequeryIP = serverIP;
 			}
+
+			instance = this;
 		} catch (FileNotFoundException ex) {
 			// Highly unlikely to ever get this exception as the server.properties file is created before hand.
 			log.log(Level.SEVERE, "Could not find " + CONFIG_FILE, ex);
@@ -124,7 +128,7 @@ public final class Minequery extends JavaPlugin {
 	public void onEnable() {
 		try {
 			// Initialize a new server thread.
-			server = new QueryServer(this, minequeryIP, minequeryPort);
+			server = new QueryServer(minequeryIP, minequeryPort);
 
 			// Start the server listener.
 			server.startListener();
@@ -181,6 +185,15 @@ public final class Minequery extends JavaPlugin {
 	 */
 	public int getMaxPlayers() {
 		return maxPlayers;
+	}
+
+	/**
+	 * Gets the Minequery plugin instance.
+	 *
+	 * @return The instance of Minequery
+	 */
+	public static Minequery getInstance() {
+		return instance;
 	}
 
 }
