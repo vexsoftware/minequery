@@ -19,11 +19,6 @@ import java.util.logging.Logger;
 public final class Minequery extends JavaPlugin {
 
 	/**
-	 * The main configuration file.
-	 */
-	private static final String CONFIG_FILE = "server.properties";
-
-	/**
 	 * The logging utility.
 	 */
 	private final Logger log = Logger.getLogger("Minecraft");
