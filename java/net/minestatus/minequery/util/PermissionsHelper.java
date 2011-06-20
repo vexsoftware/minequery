@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
  * Helper for the Permissions plugin.
  *
  * @author Kramer Campbell
+ * @since 2.0
  */
 public class PermissionsHelper {
 	private static PermissionHandler permissionHandler;
