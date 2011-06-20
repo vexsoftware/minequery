@@ -1,10 +1,12 @@
 package net.minestatus.minequery.net;
 
+import net.minestatus.minequery.Minequery;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * The main networking hub that listens for and responds to Minequery requests.
@@ -31,11 +33,6 @@ public final class QueryServer extends Thread {
 	private ServerSocket listener;
 
 	/**
-	 * The logging utility.
-	 */
-	private final Logger log = Logger.getLogger("Minecraft");
-
-	/**
 	 * Creates a new <code>QueryServer</code> object.
 	 * 
 	 * @param host
@@ -58,10 +55,10 @@ public final class QueryServer extends Thread {
 		// Initialize the listener.
 		InetSocketAddress address;
 		if (host.equalsIgnoreCase("ANY") || host.equalsIgnoreCase("0.0.0.0")) {
-			log.info("Starting Minequery server on *:" + Integer.toString(port));
+			Minequery.getInstance().log(Level.INFO, "Starting Minequery server on *:" + Integer.toString(port));
 			address = new InetSocketAddress(port);
 		} else {
-			log.info("Starting Minequery server on " + host + ":" + Integer.toString(port));
+			Minequery.getInstance().log(Level.INFO, "Starting Minequery server on " + host + ":" + Integer.toString(port));
 			address = new InetSocketAddress(host, port);
 		}
 		listener = new ServerSocket();
@@ -78,9 +75,7 @@ public final class QueryServer extends Thread {
 				// Create a new thread to handle the request.
 				(new Thread(new Request(socket))).start();
 			}
-		} catch (IOException ex) {
-			log.info("Stopping Minequery server");
-		}
+		} catch (IOException ignored) {}
 	}
 
 	/**

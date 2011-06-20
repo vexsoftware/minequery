@@ -24,7 +24,7 @@ public final class Minequery extends JavaPlugin {
 	private static final String CONFIG_FILE = "server.properties";
 
 	/**
-	 * The logging utility (used for error logging).
+	 * The logging utility.
 	 */
 	private final Logger log = Logger.getLogger("Minecraft");
 
@@ -74,13 +74,13 @@ public final class Minequery extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
-		log.info("Stopping Minequery server");
+		log(Level.INFO, "Stopping Minequery server");
 
 		try {
 			if (server != null && server.getListener() != null)
 				server.getListener().close();
 		} catch (IOException ex) {
-			log.log(Level.WARNING, "Unable to close the Minequery listener", ex);
+			log(Level.WARNING, "Unable to close the Minequery listener", ex);
 		}
 	}
 
@@ -94,7 +94,7 @@ public final class Minequery extends JavaPlugin {
 		loadConfiguration();
 
 		try {
-			log.info("Starting Minequery version " + getDescription().getVersion());
+			log(Level.INFO, "Starting Minequery version " + getDescription().getVersion());
 
 			// Initialize a new server thread.
 			server = new QueryServer(minequeryIP, minequeryPort);
@@ -105,9 +105,9 @@ public final class Minequery extends JavaPlugin {
 			// Start listening for requests.
 			server.start();
 		} catch (BindException ex) {
-			log.log(Level.SEVERE, "Minequery cannot bind to the port " + minequeryPort + ". Perhaps it's already in use?");
+			log(Level.SEVERE, "Could not bind to the port " + minequeryPort + ". Perhaps it's already in use?");
 		} catch (IOException ex) {
-			log.log(Level.SEVERE, "Error starting server listener", ex);
+			log(Level.SEVERE, "Error starting server listener", ex);
 		}
 	}
 
@@ -115,7 +115,7 @@ public final class Minequery extends JavaPlugin {
 		// Check if the plugin data folder exists.
 		if (!getDataFolder().exists()) {
 			if (!getDataFolder().mkdirs()) {
-				log.warning("Failed to create plugin data folder.");
+				log(Level.WARNING, "Failed to create plugin data folder.");
 			}
 		}
 
@@ -133,7 +133,7 @@ public final class Minequery extends JavaPlugin {
 				getConfiguration().save();
 			}
 		} catch (IOException ex) {
-			log.warning("Failed to create plugin configuration file.");
+			log(Level.WARNING, "Failed to create plugin configuration file.");
 		}
 
 		getConfiguration().load();
@@ -152,6 +152,14 @@ public final class Minequery extends JavaPlugin {
 			// Assume if the Minequery IP is blank that we're listening on the same IP as the server IP.
 			minequeryIP = serverIP;
 		}
+	}
+
+	public void log(Level level, String msg) {
+		log.log(level, "[Minequery] " + msg);
+	}
+
+	public void log(Level level, String msg, Throwable thrown) {
+		log.log(level, "[Minequery] " + msg, thrown);
 	}
 
 	/**

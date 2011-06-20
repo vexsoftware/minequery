@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,11 +34,6 @@ public final class Request extends Thread {
 	 * The socket we are using to obtain a request.
 	 */
 	private final Socket socket;
-
-	/**
-	 * The logging utility.
-	 */
-	private final Logger log = Logger.getLogger("Minecraft");
 
 	/**
 	 * Creates a new <code>QueryServer</code> object.
@@ -64,7 +58,7 @@ public final class Request extends Thread {
 			// Finally close the socket.
 			socket.close();
 		} catch (IOException ex) {
-			log.log(Level.SEVERE, "Minequery server thread shutting down", ex);
+			Minequery.getInstance().log(Level.SEVERE, "Minequery server thread shutting down", ex);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
