@@ -128,6 +128,8 @@ public final class Minequery extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		try {
+			log.info("Starting Minequery version " + getDescription().getVersion());
+
 			// Initialize a new server thread.
 			server = new QueryServer(minequeryIP, minequeryPort);
 
