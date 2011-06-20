@@ -57,10 +57,9 @@ public final class Request extends Thread {
 
 			// Finally close the socket.
 			socket.close();
-		} catch (IOException ex) {
-			Minequery.getInstance().log(Level.SEVERE, "Minequery server thread shutting down", ex);
+		} catch (IOException ignored) {
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Minequery.getInstance().log(Level.SEVERE, "Uh oh! Something unexpected happened.", ex);
 		}
 	}
 
