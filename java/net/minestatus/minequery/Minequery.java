@@ -3,11 +3,9 @@ package net.minestatus.minequery;
 import net.minestatus.minequery.net.QueryServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.net.BindException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,41 +64,7 @@ public final class Minequery extends JavaPlugin {
 	 * Creates a new <code>Minequery</code> object.
 	 */
 	public Minequery() {
-		try {
-			// Initialize the Minequery plugin.
-			Properties props = new Properties();
-			props.load(new FileReader(CONFIG_FILE));
-			serverIP = props.getProperty("server-ip", "ANY");
-			serverPort = Integer.parseInt(props.getProperty("server-port", "25565"));
-			minequeryIP = props.getProperty("minequery-ip");
-			minequeryPort = Integer.parseInt(props.getProperty("minequery-port", "25566"));
-			maxPlayers = Integer.parseInt(props.getProperty("max-players", "32"));
-
-			// By default, "server-ip=" is set in server.properties which causes the default in getProperty() to not
-			// apply. This checks if it's blank and sets it to "ANY" if so.
-			if (serverIP.equals("")) {
-				serverIP = "ANY";
-			}
-
-			// Is the minequery-ip property defined?
-			if (minequeryIP != null) {
-				// Just in case users use the same practice as above for "minequery-ip="
-				if (minequeryIP.equals("")) {
-					minequeryIP = "ANY";
-				}
-			} else {
-				// Let's assume to use the same host as the Minecraft server.
-				// For backwards compatibility.
-				minequeryIP = serverIP;
-			}
-
-			instance = this;
-		} catch (FileNotFoundException ex) {
-			// Highly unlikely to ever get this exception as the server.properties file is created before hand.
-			log.log(Level.SEVERE, "Could not find " + CONFIG_FILE, ex);
-		} catch (IOException ex) {
-			log.log(Level.SEVERE, "Error initializing Minequery", ex);
-		}
+		instance = this;
 	}
 
 	/*
@@ -127,6 +91,8 @@ public final class Minequery extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
+		loadConfiguration();
+
 		try {
 			log.info("Starting Minequery version " + getDescription().getVersion());
 
@@ -142,6 +108,49 @@ public final class Minequery extends JavaPlugin {
 			log.log(Level.SEVERE, "Minequery cannot bind to the port " + minequeryPort + ". Perhaps it's already in use?");
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error starting server listener", ex);
+		}
+	}
+
+	private void loadConfiguration() {
+		// Check if the plugin data folder exists.
+		if (!getDataFolder().exists()) {
+			if (!getDataFolder().mkdirs()) {
+				log.warning("Failed to create plugin data folder.");
+			}
+		}
+
+		// Check if the config file exists.
+		try {
+			File config = new File(getDataFolder() + "/config.yml");
+			if (!config.exists()) {
+				if (!config.createNewFile()) {
+					throw new IOException();
+				}
+
+				// Default configuration.
+				getConfiguration().setProperty("ip", "");
+				getConfiguration().setProperty("port", 25566);
+				getConfiguration().save();
+			}
+		} catch (IOException ex) {
+			log.warning("Failed to create plugin configuration file.");
+		}
+
+		getConfiguration().load();
+		serverIP = getServer().getIp();
+		serverPort = getServer().getPort();
+		minequeryIP = getConfiguration().getString("ip", serverIP);
+		minequeryPort = getConfiguration().getInt("port", 25566);
+		maxPlayers = getServer().getMaxPlayers();
+
+		if (serverIP.equals("")) {
+			// Assume if the server IP is blank that we're listening on ANY.
+			serverIP = "ANY";
+		}
+
+		if (minequeryIP.equals("")) {
+			// Assume if the Minequery IP is blank that we're listening on the same IP as the server IP.
+			minequeryIP = serverIP;
 		}
 	}
 
