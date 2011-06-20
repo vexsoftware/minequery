@@ -57,7 +57,7 @@ public final class QueryServer extends Thread {
 	public void startListener() throws IOException {
 		// Initialize the listener.
 		InetSocketAddress address;
-		if (host.equalsIgnoreCase("ANY")) {
+		if (host.equalsIgnoreCase("ANY") || host.equalsIgnoreCase("0.0.0.0")) {
 			log.info("Starting Minequery server on *:" + Integer.toString(port));
 			address = new InetSocketAddress(port);
 		} else {
