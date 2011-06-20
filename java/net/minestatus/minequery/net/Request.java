@@ -139,6 +139,11 @@ public final class Request extends Thread {
 		// Different requests may be introduced in the future.
 	}
 
+	/**
+	 * Obtains all the players currently on the server.
+	 *
+	 * @return An array of players on the server.
+	 */
 	private String[] getPlayerList() {
 		Minequery m = Minequery.getInstance();
 
@@ -150,6 +155,11 @@ public final class Request extends Thread {
 		return playerList;
 	}
 
+	/**
+	 * Obtains all the players currently on the server with additional information.
+	 *
+	 * @return A <code>List</code> of <code>Map</code>s of players along with their info.
+	 */
 	private List<Map<String, Object>> getExtendedPlayerList() {
 		Minequery m = Minequery.getInstance();
 
@@ -192,6 +202,11 @@ public final class Request extends Thread {
 		return playerList;
 	}
 
+	/**
+	 * Obtains all the plugins currently enabled on the server.
+	 *
+	 * @return A <code>List</code> of <code>Map</code>s of plugins with their name and version.
+	 */
 	private List<Map<String, String>> getPluginList() {
 		Minequery m = Minequery.getInstance();
 
@@ -208,6 +223,11 @@ public final class Request extends Thread {
 		return pluginList;
 	}
 
+	/**
+	 * Obtains the version numbers of CraftBukkit, Minecraft, and Minequery.
+	 *
+	 * @return A <code>Map</code> of versions.
+	 */
 	private Map<String, String> getVersions() {
 		Minequery m = Minequery.getInstance();
 

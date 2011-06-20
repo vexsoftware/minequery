@@ -58,6 +58,9 @@ public final class Minequery extends JavaPlugin {
 	 */
 	private QueryServer server;
 
+	/**
+	 * The instance of the plugin.
+	 */
 	private static Minequery instance;
 
 	/**
@@ -154,10 +157,23 @@ public final class Minequery extends JavaPlugin {
 		}
 	}
 
+	/**
+	 * Sends a message to the logger.
+	 *
+	 * @param level The severity of the message.
+	 * @param msg The message to be sent.
+	 */
 	public void log(Level level, String msg) {
 		log.log(level, "[Minequery] " + msg);
 	}
 
+	/**
+	 * Sends a message to the logger along with the exception.
+	 *
+	 * @param level The severity of the message.
+	 * @param msg The message to be sent.
+	 * @param thrown The exception thrown.
+	 */
 	public void log(Level level, String msg, Throwable thrown) {
 		log.log(level, "[Minequery] " + msg, thrown);
 	}
