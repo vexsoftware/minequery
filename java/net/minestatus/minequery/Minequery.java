@@ -1,11 +1,15 @@
 package net.minestatus.minequery;
 
+import net.minestatus.minequery.util.Updater;
 import net.minestatus.minequery.net.QueryServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.BindException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,6 +58,11 @@ public final class Minequery extends JavaPlugin {
 	private QueryServer server;
 
 	/**
+	 * The main updater instance.
+	 */
+	private Updater updater;
+
+	/**
 	 * The instance of the plugin.
 	 */
 	private static Minequery instance;
@@ -91,21 +100,32 @@ public final class Minequery extends JavaPlugin {
 	public void onEnable() {
 		loadConfiguration();
 
-		try {
-			log(Level.INFO, "Starting Minequery version " + getDescription().getVersion());
+		log(Level.INFO, "Starting Minequery version " + getDescription().getVersion());
 
-			// Initialize a new server thread.
-			server = new QueryServer(minequeryIP, minequeryPort);
+		// Server mode
+		if (getConfiguration().getBoolean("server.enabled", false)) {
+			try {
+				// Initialize a new server thread.
+				server = new QueryServer(minequeryIP, minequeryPort);
 
-			// Start the server listener.
-			server.startListener();
+				// Start the server listener.
+				server.startListener();
 
-			// Start listening for requests.
-			server.start();
-		} catch (BindException ex) {
-			log(Level.SEVERE, "Could not bind to the port " + minequeryPort + ". Perhaps it's already in use?");
-		} catch (IOException ex) {
-			log(Level.SEVERE, "Error starting server listener", ex);
+				// Start listening for requests.
+				server.start();
+			} catch (BindException ex) {
+				log(Level.SEVERE, "Could not bind to the port " + minequeryPort + ". Perhaps it's already in use?");
+			} catch (IOException ex) {
+				log(Level.SEVERE, "Error starting server listener", ex);
+			}
+		}
+
+		// Updater mode
+		if (getConfiguration().getBoolean("updater.enabled", false)) {
+			// Schedule the updater.
+			ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+			scheduler.scheduleAtFixedRate(new Updater(), 0, 5, TimeUnit.SECONDS);
+
 		}
 	}
 
@@ -125,9 +145,20 @@ public final class Minequery extends JavaPlugin {
 					throw new IOException();
 				}
 
-				// Default configuration.
-				getConfiguration().setProperty("ip", "");
-				getConfiguration().setProperty("port", 25566);
+				// Set up the default configuration.
+
+				// Server mode
+				getConfiguration().setProperty("server.ip", "");
+				getConfiguration().setProperty("server.port", 25566);
+				getConfiguration().setProperty("server.enabled", true);
+
+				// Updater mode
+				getConfiguration().setProperty("updater.enabled", false);
+				getConfiguration().setProperty("updater.services.minestatus.key", "");
+				getConfiguration().setProperty("updater.services.minestatus.url", "");
+				getConfiguration().setProperty("updater.services.myserverlist.key", "");
+				getConfiguration().setProperty("updater.services.myserverlist.url", "");
+
 				getConfiguration().save();
 			}
 		} catch (IOException ex) {
@@ -137,8 +168,8 @@ public final class Minequery extends JavaPlugin {
 		getConfiguration().load();
 		serverIP = getServer().getIp();
 		serverPort = getServer().getPort();
-		minequeryIP = getConfiguration().getString("ip", serverIP);
-		minequeryPort = getConfiguration().getInt("port", 25566);
+		minequeryIP = getConfiguration().getString("server.ip", serverIP);
+		minequeryPort = getConfiguration().getInt("server.port", 25566);
 		maxPlayers = getServer().getMaxPlayers();
 
 		if (serverIP.equals("")) {

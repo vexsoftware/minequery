@@ -1,4 +1,4 @@
-package net.minestatus.minequery.util;
+package net.minestatus.minequery.util.helper;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
