@@ -73,7 +73,7 @@ public final class QueryServer extends Thread {
 				Socket socket = getListener().accept();
 
 				// Create a new thread to handle the request.
-				(new Thread(new Request(socket))).start();
+				(new Thread(new RequestHandler(socket))).start();
 			}
 		} catch (IOException ignored) {}
 	}

@@ -22,7 +22,7 @@ import java.util.logging.Level;
  * @author Blake Beaupain
  * @since 1.2
  */
-public final class Request extends Thread {
+public final class RequestHandler extends Thread {
 	/**
 	 * The socket we are using to obtain a request.
 	 */
@@ -34,7 +34,7 @@ public final class Request extends Thread {
 	 * @param socket
 	 *            The socket we are using to obtain a request
 	 */
-	public Request(Socket socket) {
+	public RequestHandler(Socket socket) {
 		this.socket = socket;
 	}
 
