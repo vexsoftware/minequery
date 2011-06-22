@@ -63,6 +63,11 @@ public final class Minequery extends JavaPlugin {
 	private Updater updater;
 
 	/**
+	 * The main updater scheduler.
+	 */
+	private ScheduledExecutorService updaterScheduler;
+
+	/**
 	 * The instance of the plugin.
 	 */
 	private static Minequery instance;
@@ -81,13 +86,23 @@ public final class Minequery extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
-		log(Level.INFO, "Stopping Minequery server");
+		if (getConfiguration().getBoolean("server.enabled", false)) {
+			log(Level.INFO, "Stopping Minequery server");
 
-		try {
-			if (server != null && server.getListener() != null)
-				server.getListener().close();
-		} catch (IOException ex) {
-			log(Level.WARNING, "Unable to close the Minequery listener", ex);
+			// Stop the server.
+			try {
+				if (server != null && server.getListener() != null)
+					server.getListener().close();
+			} catch (IOException ex) {
+				log(Level.WARNING, "Unable to close the Minequery listener", ex);
+			}
+		}
+
+		if (getConfiguration().getBoolean("updater.enabled", false)) {
+			log(Level.INFO, "Stopping Minequery updater");
+
+			// Stop the updater.
+			updaterScheduler.shutdown();
 		}
 	}
 
@@ -122,9 +137,11 @@ public final class Minequery extends JavaPlugin {
 
 		// Updater mode
 		if (getConfiguration().getBoolean("updater.enabled", false)) {
+			log(Level.INFO, "Stopping Minequery updater");
+
 			// Schedule the updater.
-			ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-			scheduler.scheduleAtFixedRate(new Updater(), 0, 5, TimeUnit.SECONDS);
+			updaterScheduler = Executors.newSingleThreadScheduledExecutor();
+			updaterScheduler.scheduleAtFixedRate(new Updater(), 0, 5, TimeUnit.SECONDS);
 
 		}
 	}
