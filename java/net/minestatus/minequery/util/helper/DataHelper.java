@@ -42,7 +42,7 @@ public class DataHelper {
 	 *
 	 * @return An array of players on the server.
 	 */
-	public static String[] getPlayerList() {
+	private static String[] getPlayerList() {
 		String[] playerList = new String[minequery.getServer().getOnlinePlayers().length];
 		for (int i = 0; i < minequery.getServer().getOnlinePlayers().length; i++) {
 			playerList[i] = minequery.getServer().getOnlinePlayers()[i].getName();
@@ -56,7 +56,7 @@ public class DataHelper {
 	 *
 	 * @return A <code>List</code> of <code>Map</code>s of players along with their info.
 	 */
-	public static List<Map<String, Object>> getExtendedPlayerList() {
+	private static List<Map<String, Object>> getExtendedPlayerList() {
 		Player[] players = minequery.getServer().getOnlinePlayers();
 		List<Map<String, Object>> playerList = new ArrayList<Map<String, Object>>();
 
@@ -101,7 +101,7 @@ public class DataHelper {
 	 *
 	 * @return A <code>List</code> of <code>Map</code>s of plugins with their name and version.
 	 */
-	public static List<Map<String, String>> getPluginList() {
+	private static List<Map<String, String>> getPluginList() {
 		Plugin[] plugins = minequery.getServer().getPluginManager().getPlugins();
 		List<Map<String, String>> pluginList = new ArrayList<Map<String, String>>();
 
@@ -120,7 +120,7 @@ public class DataHelper {
 	 *
 	 * @return A <code>Map</code> of versions.
 	 */
-	public static Map<String, String> getVersions() {
+	private static Map<String, String> getVersions() {
 		Map<String, String> versions = new HashMap<String, String>();
 
 		// Find the CraftBukkit build and the Minecraft version.
