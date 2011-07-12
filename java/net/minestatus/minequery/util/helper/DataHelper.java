@@ -29,7 +29,7 @@ public class DataHelper {
 		items.put("serverIP", minequery.getServerIP());
 		items.put("serverPort", minequery.getServerPort());
 		items.put("playerCount", minequery.getServer().getOnlinePlayers().length);
-		items.put("maxPlayers", minequery.getMaxPlayers());
+		items.put("maxPlayers", minequery.getServer().getMaxPlayers());
 		items.put("playerList", getPlayerList());
 		items.put("extendedPlayerList", getExtendedPlayerList());
 		items.put("plugins", getPluginList());

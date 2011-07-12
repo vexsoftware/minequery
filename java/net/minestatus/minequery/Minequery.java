@@ -48,11 +48,6 @@ public final class Minequery extends JavaPlugin {
 	private int minequeryPort;
 
 	/**
-	 * The maximum amount of players allowed on the Minecraft server.
-	 */
-	private int maxPlayers;
-
-	/**
 	 * The main Minequery server.
 	 */
 	private QueryServer server;
@@ -190,7 +185,6 @@ public final class Minequery extends JavaPlugin {
 		serverPort = getServer().getPort();
 		minequeryIP = getConfiguration().getString("server.ip", serverIP);
 		minequeryPort = getConfiguration().getInt("server.port", 25566);
-		maxPlayers = getServer().getMaxPlayers();
 
 		if (serverIP.equals("")) {
 			// Assume if the server IP is blank that we're listening on ANY.
@@ -258,15 +252,6 @@ public final class Minequery extends JavaPlugin {
 	 */
 	public int getMinequeryPort() {
 		return minequeryPort;
-	}
-
-	/**
-	 * Gets the maximum amount of players the Minecraft server can hold.
-	 * 
-	 * @return The maximum amount of players
-	 */
-	public int getMaxPlayers() {
-		return maxPlayers;
 	}
 
 	/**
