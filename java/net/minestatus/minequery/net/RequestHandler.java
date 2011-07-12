@@ -96,8 +96,6 @@ public final class RequestHandler extends Thread {
 
 		// Handle a request, respond in JSON format.
 		if (request.equalsIgnoreCase("QUERY_JSON")) {
-			Minequery m = Minequery.getInstance();
-
 			// Build the JSON response.
 			StringBuilder resp = new StringBuilder();
 			resp.append(new JSONObject(DataHelper.getData()).toString()).append("\n");
