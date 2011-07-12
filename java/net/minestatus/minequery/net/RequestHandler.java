@@ -87,7 +87,7 @@ public final class RequestHandler extends Thread {
 			resp.append("SERVERIP ").append(data.get("serverIP")).append("\n");
 			resp.append("EXTENDEDPLAYERLIST ").append(new JSONArray((List) data.get("extendedPlayerList")).toString()).append("\n");
 			resp.append("PLUGINS ").append(new JSONArray((List) data.get("plugins")).toString()).append("\n");
-			resp.append("VERSIONS ").append(new JSONObject(data.get("versions")).toString()).append("\n");
+			resp.append("VERSIONS ").append(new JSONObject((Map) data.get("versions")).toString()).append("\n");
 
 			// Send the response.
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
