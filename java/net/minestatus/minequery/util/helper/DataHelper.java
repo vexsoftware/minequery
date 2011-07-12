@@ -25,6 +25,7 @@ public class DataHelper {
 	 */
 	public static Map<String, Object> getData() {
 		Map<String, Object> items = new HashMap<String, Object>();
+		items.put("serverName", minequery.getConfiguration().getString("details.server_name"));
 		items.put("serverIP", minequery.getServerIP());
 		items.put("serverPort", minequery.getServerPort());
 		items.put("playerCount", minequery.getServer().getOnlinePlayers().length);

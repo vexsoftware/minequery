@@ -164,6 +164,9 @@ public final class Minequery extends JavaPlugin {
 
 				// Set up the default configuration.
 
+				// Details
+				getConfiguration().setProperty("details.server_name", "My Server");
+
 				// Server mode
 				getConfiguration().setProperty("server.ip", "");
 				getConfiguration().setProperty("server.port", 25566);

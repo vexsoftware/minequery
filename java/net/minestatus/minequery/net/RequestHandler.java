@@ -83,6 +83,7 @@ public final class RequestHandler extends Thread {
 			resp.append("PLAYERCOUNT ").append(data.get("playerCount")).append("\n");
 			resp.append("MAXPLAYERS ").append(data.get("maxPlayers")).append("\n");
 			resp.append("PLAYERLIST ").append(new JSONArray(data.get("playerList")).toString()).append("\n");
+			resp.append("SERVERNAME ").append(data.get("serverName")).append("\n");
 			resp.append("SERVERIP ").append(data.get("serverIP")).append("\n");
 			resp.append("EXTENDEDPLAYERLIST ").append(new JSONArray((List) data.get("extendedPlayerList")).toString()).append("\n");
 			resp.append("PLUGINS ").append(new JSONArray((List) data.get("plugins")).toString()).append("\n");
