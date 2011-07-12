@@ -107,11 +107,9 @@ public final class RequestHandler extends Thread {
 
 		// Responses simply with the version of Minequery.
 		if (request.equalsIgnoreCase("VERSION")) {
-			Minequery m = Minequery.getInstance();
-
 			// Build the response.
 			StringBuilder resp = new StringBuilder();
-			resp.append(m.getDescription().getVersion()).append("\n");
+			resp.append(Minequery.getInstance().getDescription().getVersion()).append("\n");
 
 			// Send the response.
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
