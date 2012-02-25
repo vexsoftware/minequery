@@ -89,10 +89,10 @@ public final class Request extends Thread {
 
 			// Build the response.
 			StringBuilder resp = new StringBuilder();
-			resp.append("SERVERPORT " + m.getServerPort() + "\n");
-			resp.append("PLAYERCOUNT " + m.getServer().getOnlinePlayers().length + "\n");
-			resp.append("MAXPLAYERS " + m.getMaxPlayers() + "\n");
-			resp.append("PLAYERLIST " + Arrays.toString(playerList) + "\n");
+			resp.append((new StringBuilder()).append("SERVERPORT ").append(m.getServerPort()).append("\n").toString());
+            		resp.append((new StringBuilder()).append("PLAYERCOUNT ").append(m.getPlayerAmount()).append("\n").toString());
+            		resp.append((new StringBuilder()).append("MAXPLAYERS ").append(m.getMaxPlayers()).append("\n").toString());
+            		resp.append((new StringBuilder()).append("PLAYERLIST ").append(m.getOnlinePlayers(false)).append("\n").toString());
 
 			// Send the response.
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -102,31 +102,18 @@ public final class Request extends Thread {
 		// Handle a request, respond in JSON format.
 		if (request.equalsIgnoreCase("QUERY_JSON")) {
 			Minequery m = getMinequery();
-
-			// Build the JSON response.
-			StringBuilder resp = new StringBuilder();
-			resp.append("{");
-			resp.append("\"serverPort\":").append(m.getServerPort()).append(",");
-			resp.append("\"playerCount\":").append(m.getServer().getOnlinePlayers().length).append(",");
-			resp.append("\"maxPlayers\":").append(m.getMaxPlayers()).append(",");
+            		StringBuilder resp = new StringBuilder();
+            		resp.append("{");
+            		resp.append("\"serverPort\":").append(m.getServerPort()).append(",");
+            		resp.append("\"playerCount\":").append(m.getPlayerAmount()).append(",");
+            		resp.append("\"maxPlayers\":").append(m.getMaxPlayers()).append(",");
 			resp.append("\"playerList\":");
-			resp.append("[");
-
-			// Iterate through the players.
-			int count = 0;
-			for (Player player : m.getServer().getOnlinePlayers()) {
-				resp.append("\"" + player.getName() + "\"");
-				if (++count < m.getServer().getOnlinePlayers().length) {
-					resp.append(",");
-				}
-			}
-
-			resp.append("]");
-			resp.append("}\n");
-
-			// Send the JSON response.
-			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-			out.writeBytes(resp.toString());
+            		resp.append("[");
+            		resp.append(m.getOnlinePlayers(true));
+            		resp.append("]");
+            		resp.append("}\n");
+            		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            		out.writeBytes(resp.toString());
 		}
 
 		// Different requests may be introduced in the future.
