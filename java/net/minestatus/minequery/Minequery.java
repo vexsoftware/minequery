@@ -117,7 +117,6 @@ public final class Minequery extends JavaPlugin {
     			amount++;
     		}
     	}
-    	log.log(Level.INFO, "Player amount " + amount);
     	return amount;
     }
     
@@ -157,7 +156,6 @@ public final class Minequery extends JavaPlugin {
             }
             result = Arrays.toString(playerList);
     	}
-    	log.log(Level.INFO, "Players online: " + result);
     	return result;
     }
 	/**
