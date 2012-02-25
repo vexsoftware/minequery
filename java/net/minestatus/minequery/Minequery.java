@@ -106,6 +106,60 @@ public final class Minequery extends JavaPlugin {
 		server.start();
 	}
 
+
+    public int getPlayerAmount()
+    {
+        int amount = 0;
+    	for(Player player : getServer().getOnlinePlayers())
+    	{
+    		if(!hiddenPlayers.contains(player.getName()))
+    		{
+    			amount++;
+    		}
+    	}
+    	log.log(Level.INFO, "Player amount " + amount);
+    	return amount;
+    }
+    
+    public String getOnlinePlayers(boolean json)
+    {
+    	String result = "";
+    	if(json)
+    	{
+    		StringBuilder resp = new StringBuilder();
+    		int count = 0;
+            Player players[] = getServer().getOnlinePlayers();
+            int len$ = players.length;
+            for(int i$ = 0; i$ < len$; i$++)
+            {
+                Player player = players[i$];
+                if(!hiddenPlayers.contains(player.getName()))
+                {
+                	resp.append((new StringBuilder()).append("\"").append(player.getName()).append("\"").toString());
+                    if(++count < getPlayerAmount())
+                        resp.append(",");
+                }
+            }
+            result = resp.toString();
+    	}
+    	else
+    	{
+    		String playerList[] = new String[getPlayerAmount()];
+    		int i = 0;
+            for(Player player : getServer().getOnlinePlayers())
+            {
+            	if(!hiddenPlayers.contains(player.getName()))
+            	{
+            		playerList[i] = player.getName();
+            		i++;
+            	}
+            	
+            }
+            result = Arrays.toString(playerList);
+    	}
+    	log.log(Level.INFO, "Players online: " + result);
+    	return result;
+    }
 	/**
 	 * Gets the port that the Minecraft server is running on.
 	 *
@@ -133,4 +187,21 @@ public final class Minequery extends JavaPlugin {
 		return maxPlayers;
 	}
 
+    public void setPlayerVisiblity(Player player, boolean hide)
+    {
+        if(hide)
+    	{
+    		if(!hiddenPlayers.contains(player.getName()))
+    		{
+    			hiddenPlayers.add(player.getName());
+    		}
+    	}
+    	else
+    	{
+    		if(hiddenPlayers.contains(player.getName()))
+    		{
+    			hiddenPlayers.remove(player.getName());
+    		}
+    	}
+    }
 }
